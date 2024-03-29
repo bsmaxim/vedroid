@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">weather_app_belyakov</string>
+    <string name="AutocompleteHint">Введи город</string>
+    <string name="CurrentWeatherIcon">Значок отображающий текущую погоду</string>
+</resources>
