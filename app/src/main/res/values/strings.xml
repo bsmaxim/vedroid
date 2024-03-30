@@ -2,4 +2,10 @@
     <string name="app_name">weather_app_belyakov</string>
     <string name="AutocompleteHint">Введи город</string>
     <string name="CurrentWeatherIcon">Значок отображающий текущую погоду</string>
+    <string-array name="AutocompleteDefault">
+        <item>Челябинск</item>
+        <item>Москва</item>
+        <item>Новосибирск</item>
+        <item>Екатеринбург</item>
+    </string-array>
 </resources>

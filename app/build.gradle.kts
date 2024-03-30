@@ -67,6 +67,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // WeatherView
+    implementation("com.github.MatteoBattilana:WeatherView:3.0.0")
 }
 
 kapt{

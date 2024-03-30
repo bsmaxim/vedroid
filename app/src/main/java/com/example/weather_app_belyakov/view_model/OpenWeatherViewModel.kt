@@ -5,7 +5,7 @@ import com.example.weather_app_belyakov.network.OpenWeatherApi
 import com.example.weather_app_belyakov.network.OpenWeatherServices
 import com.example.weather_app_belyakov.repository.OpenWeatherRepository
 
-class OpenWeatherViewModel(val repository: OpenWeatherRepository) : ViewModel() {
+class OpenWeatherViewModel(private val repository: OpenWeatherRepository) : ViewModel() {
     constructor() : this(OpenWeatherRepository(OpenWeatherApi().getClient().create(OpenWeatherServices::class.java)))
 
     fun loadGeoInfo(cityName: String) =

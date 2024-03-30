@@ -6,25 +6,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+<!--    tools:layout_marginTop="-200dp"-->
 
-    <LinearLayout
-        android:id="@+id/MainLayout"
-        android:layout_width="409dp"
-        android:layout_height="684dp"
-        android:orientation="vertical"
+
+
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:accessibilityHeading="false"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sunny_bg" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/backgroundImage"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/plus" />
+
+    <com.github.matteobattilana.weather.WeatherView
+        android:id="@+id/weatherView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView"
-            android:layout_width="257dp"
-            android:layout_height="58dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:hint="@string/AutocompleteHint"
-            android:textColorHint="#546E7A" />
+    </com.github.matteobattilana.weather.WeatherView>
+
+    <LinearLayout
+        android:id="@+id/temperatureLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables">
 
         <EditText
             android:id="@+id/testLanLon"
@@ -34,56 +59,29 @@
             android:inputType="text"
             android:text="Name" />
 
-        <LinearLayout
-            android:id="@+id/temperatureLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipChildren="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            tools:ignore="UseCompoundDrawables">
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
+            android:layout_width="257dp"
+            android:layout_height="58dp"
+            android:layout_gravity="center"
+            android:hint="@string/AutocompleteHint"
 
-            <ImageView
-                android:id="@+id/weatherIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/CurrentWeatherIcon"
-                tools:srcCompat="@tools:sample/avatars" />
+            android:textColorHint="#546E7A" />
 
-            <TextView
-                android:id="@+id/temperatureValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="clip_horizontal|center"
-                android:text="asd"
-                android:textFontWeight="24" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/weatherIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/CurrentWeatherIcon"
+            tools:srcCompat="@tools:sample/avatars" />
 
-        <LinearLayout
-            android:id="@+id/additionalInfoLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/cloudy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/humidity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/wind"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/temperatureValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="clip_horizontal|center"
+            android:text="asd"
+            android:textFontWeight="24" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
