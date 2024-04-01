@@ -2,7 +2,7 @@ package com.example.weather_app_belyakov.model
 
 import com.google.gson.annotations.SerializedName
 
-data class OpenWeatherGeoResponse   (
+data class GeoResponseApi   (
     @SerializedName("name")
     val name: String,
     @SerializedName("local_names")
