@@ -3,15 +3,21 @@ package com.example.weather_app_belyakov
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.weather_app_belyakov.adapter.ForecastAdapter
 import com.example.weather_app_belyakov.databinding.ActivityMainBinding
 import com.example.weather_app_belyakov.model.CurrentResponseApi
+import com.example.weather_app_belyakov.model.ForecastResponseApi
 import com.example.weather_app_belyakov.view_model.WeatherViewModel
 import com.github.matteobattilana.weather.PrecipType
+import eightbitlab.com.blurview.RenderScriptBlur
 import retrofit2.Call
 import retrofit2.Response
 import java.util.Calendar
@@ -20,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     lateinit var binding: ActivityMainBinding
     private val calendar by lazy { Calendar.getInstance() }
+    private val forecastAdapter by lazy { ForecastAdapter() }
 
     private val weatherViewModel: WeatherViewModel by viewModels()
 
@@ -40,9 +47,10 @@ class MainActivity : AppCompatActivity() {
             var lon = 61.436844
             var name = "Chelyabinsk"
 
+            // current temp
             cityTxt.text = name
             progressBar.visibility = View.VISIBLE
-            weatherViewModel.loadCurrentWeatherInfo(lat, lon, "metric").enqueue(object :
+            weatherViewModel.loadCurrentWeather(lat, lon, "metric").enqueue(object :
                 retrofit2.Callback<CurrentResponseApi> {
                 override fun onResponse(
                     call: Call<CurrentResponseApi>,
@@ -55,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                         data?.let {
                             statusTxt.text = it.weather?.get(0)?.main ?: "-"
                             windTxt.text = it.wind?.speed?.let { Math.round(it).toString() } + "Km"
-                            humidityTxt.text=it.main?.humidity?.toString()+"%"
+                            humidityTxt.text = it.main?.humidity?.toString() + "%"
                             currentTempTxt.text =
                                 it.main?.temp?.let { Math.round(it).toString() } + "°"
                             maxTempTxt.text =
@@ -77,8 +85,53 @@ class MainActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<CurrentResponseApi>, t: Throwable) {
                     Toast.makeText(this@MainActivity, t.toString(), Toast.LENGTH_SHORT).show()
                 }
-
             })
+
+
+            // settings Blur View
+            var radius = 10f
+            var decorView = window.decorView
+            var rootView = (decorView.findViewById(android.R.id.content) as ViewGroup?)
+            var windowsBackground = decorView.background
+
+            rootView?.let {
+                blurView.setupWith(it, RenderScriptBlur(this@MainActivity))
+                    .setFrameClearDrawable(windowsBackground)
+                    .setBlurRadius(radius)
+                blurView.outlineProvider = ViewOutlineProvider.BACKGROUND
+                blurView.clipToOutline = true
+            }
+
+
+            // forecast temp
+            weatherViewModel.loadForecastWeather(lat, lon, "metric")
+                .enqueue(object : retrofit2.Callback<ForecastResponseApi> {
+                    override fun onResponse(
+                        call: Call<ForecastResponseApi>,
+                        response: Response<ForecastResponseApi>
+                    ) {
+                        if (response.isSuccessful) {
+                            val data = response.body()
+                            blurView.visibility = View.VISIBLE
+
+                            data?.let {
+                                forecastAdapter.differ.submitList(it.list)
+                                forecastView.apply {
+                                    layoutManager=LinearLayoutManager(
+                                        this@MainActivity,
+                                        LinearLayoutManager.HORIZONTAL,
+                                        false
+                                    )
+                                    adapter=forecastAdapter
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ForecastResponseApi>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+                })
         }
     }
 

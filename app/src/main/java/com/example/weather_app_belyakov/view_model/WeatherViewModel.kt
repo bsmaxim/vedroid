@@ -11,6 +11,9 @@ class WeatherViewModel(val repository: WeatherRepository) : ViewModel() {
     fun loadGeoInfo(cityName: String) =
         repository.getGeoDecode(cityName)
 
-    fun loadCurrentWeatherInfo(lat: Double, lon: Double, units: String) =
+    fun loadCurrentWeather(lat: Double, lon: Double, units: String) =
         repository.getCurrentWeather(lat, lon, units)
+
+    fun loadForecastWeather(lat: Double, lon: Double, units: String) =
+        repository.getForecastWeather(lat, lon, units)
 }

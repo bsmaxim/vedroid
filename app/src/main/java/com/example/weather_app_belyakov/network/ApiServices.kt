@@ -1,6 +1,7 @@
 package com.example.weather_app_belyakov.network
 
 import com.example.weather_app_belyakov.model.CurrentResponseApi
+import com.example.weather_app_belyakov.model.ForecastResponseApi
 import com.example.weather_app_belyakov.model.GeoResponseApi
 import retrofit2.Call
 import retrofit2.http.GET
@@ -20,4 +21,12 @@ interface ApiServices {
         @Query("units") units: String,
         @Query("appid") apikey: String
     ): Call<CurrentResponseApi>
+
+    @GET("data/2.5/forecast")
+    fun getForecastWeather(
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
+        @Query("units") units: String,
+        @Query("appid") apikey: String
+    ): Call<ForecastResponseApi>
 }
