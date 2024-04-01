@@ -1,5 +1,6 @@
 package com.example.weather_app_belyakov
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
 
 
         window.apply {
@@ -43,9 +44,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.apply {
-            var lat = 55.164440
-            var lon = 61.436844
-            var name = "Chelyabinsk"
+            var lat = intent.getDoubleExtra("lat", 0.0)
+            var lon = intent.getDoubleExtra("lon", 0.0)
+            var name = intent.getStringExtra("name")
+
+
+            if (lat == 0.0) {
+                lat = 55.164440
+                lon = 61.436844
+                name = "Chelyabinsk"
+            }
+
+            addCity.setOnClickListener {
+                startActivity(Intent(this@MainActivity, CityListActivity::class.java))
+            }
 
             // current temp
             cityTxt.text = name
@@ -89,10 +101,10 @@ class MainActivity : AppCompatActivity() {
 
 
             // settings Blur View
-            var radius = 10f
-            var decorView = window.decorView
-            var rootView = (decorView.findViewById(android.R.id.content) as ViewGroup?)
-            var windowsBackground = decorView.background
+            val radius = 10f
+            val decorView = window.decorView
+            val rootView = (decorView.findViewById(android.R.id.content) as ViewGroup?)
+            val windowsBackground = decorView.background
 
             rootView?.let {
                 blurView.setupWith(it, RenderScriptBlur(this@MainActivity))
@@ -117,19 +129,19 @@ class MainActivity : AppCompatActivity() {
                             data?.let {
                                 forecastAdapter.differ.submitList(it.list)
                                 forecastView.apply {
-                                    layoutManager=LinearLayoutManager(
+                                    layoutManager = LinearLayoutManager(
                                         this@MainActivity,
                                         LinearLayoutManager.HORIZONTAL,
                                         false
                                     )
-                                    adapter=forecastAdapter
+                                    adapter = forecastAdapter
                                 }
                             }
                         }
                     }
 
                     override fun onFailure(call: Call<ForecastResponseApi>, t: Throwable) {
-                        TODO("Not yet implemented")
+                        Toast.makeText(this@MainActivity, t.toString(), Toast.LENGTH_SHORT).show()
                     }
                 })
         }
