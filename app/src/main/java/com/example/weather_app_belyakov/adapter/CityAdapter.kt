@@ -1,6 +1,7 @@
 package com.example.weather_app_belyakov.adapter
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -22,12 +23,15 @@ class CityAdapter : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: CityAdapter.ViewHolder, position: Int) {
         val binding = CityViewholderBinding.bind(holder.itemView)
-        binding.cityTxt.text=differ.currentList[position].name
+        val ruName = differ.currentList[position]?.localNames?.ru
+        val defaultName = differ.currentList[position].name
+        val cityName = ruName ?: defaultName
+        binding.cityTxt.text=cityName
         binding.root.setOnClickListener {
             val intent = Intent(binding.root.context, MainActivity::class.java)
             intent.putExtra("lat", differ.currentList[position].lat)
             intent.putExtra("lon", differ.currentList[position].lon)
-            intent.putExtra("name", differ.currentList[position].name)
+            intent.putExtra("name", cityName)
             binding.root.context.startActivity(intent)
         }
 

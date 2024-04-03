@@ -10,6 +10,8 @@ import com.example.weather_app_belyakov.databinding.ForecastViewholderBinding
 import com.example.weather_app_belyakov.model.ForecastResponseApi
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
 
 class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
     private lateinit var binding: ForecastViewholderBinding
@@ -23,25 +25,25 @@ class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ForecastAdapter.ViewHolder, position: Int) {
         val binding = ForecastViewholderBinding.bind(holder.itemView)
-        val date =
-            SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(differ.currentList[position].dtTxt.toString())
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        dateFormat.timeZone = TimeZone.getTimeZone("GMT")
+        val date = dateFormat.parse(differ.currentList[position].dtTxt.toString())
         val calendar = Calendar.getInstance()
-        calendar.time = date
+        calendar.time = date!!
         val dayOfWeekName = when (calendar.get(Calendar.DAY_OF_WEEK)) {
-            1 -> "Sun"
-            2 -> "Mon"
-            3 -> "Tue"
-            4 -> "Wed"
-            5 -> "Thu"
-            6 -> "Fri"
-            7 -> "Sat"
+            1 -> "Вс"
+            2 -> "Пн"
+            3 -> "Вт"
+            4 -> "Ср"
+            5 -> "Чт"
+            6 -> "Пт"
+            7 -> "Сб"
             else -> "-"
         }
         binding.nameDayTxt.text = dayOfWeekName
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val amPm = if (hour < 12) "am" else "pm"
-        val hour12 = calendar.get(Calendar.HOUR)
-        binding.hourTxt.text = hour12.toString() + amPm
+        var formattedHour = String.format("%02d:00", hour)
+        binding.hourTxt.text = formattedHour
         binding.tempTxt.text =
             differ.currentList[position].main?.temp?.let { Math.round(it) }.toString() + "°"
 

@@ -3,6 +3,7 @@ package com.example.weather_app_belyakov
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
@@ -35,8 +36,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        enableEdgeToEdge()
-
 
         window.apply {
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             if (lat == 0.0) {
                 lat = 55.164440
                 lon = 61.436844
-                name = "Chelyabinsk"
+                name = "Челябинск"
             }
 
             addCity.setOnClickListener {
@@ -73,8 +72,8 @@ class MainActivity : AppCompatActivity() {
                         progressBar.visibility = View.GONE
                         detailLayout.visibility = View.VISIBLE
                         data?.let {
-                            statusTxt.text = it.weather?.get(0)?.main ?: "-"
-                            windTxt.text = it.wind?.speed?.let { Math.round(it).toString() } + "Km"
+                            statusTxt.text = parseWeatherStatus(it.weather?.get(0))
+                            windTxt.text = it.wind?.speed?.let { Math.round(it).toString() } + "Км"
                             humidityTxt.text = it.main?.humidity?.toString() + "%"
                             currentTempTxt.text =
                                 it.main?.temp?.let { Math.round(it).toString() } + "°"
@@ -182,6 +181,74 @@ class MainActivity : AppCompatActivity() {
             else -> 0
         }
     }
+
+    private fun parseWeatherStatus(weather: CurrentResponseApi.Weather?): String {
+        if (weather === null) {
+            return ""
+        }
+
+        val result = when (weather.id) {
+            200 -> "Гроза с небольшим дождем"
+            201 -> "Гроза с дождем"
+            202 -> "Гроза с сильным дождем"
+            210 -> "Легкая гроза"
+            211 -> "Гроза"
+            212 -> "Сильная гроза"
+            221 -> "Неровная гроза"
+            230 -> "Гроза с небольшим моросью"
+            231 -> "Гроза с моросью"
+            232 -> "Гроза с сильным моросящим дождем"
+            300 -> "Слабый дождь"
+            301 -> "Морось"
+            302 -> "Сильный дождь изморось"
+            310 -> "Небольшой дождь изморось"
+            311 -> "Моросящий дождь"
+            312 -> "Сильный моросящий дождь"
+            313 -> "Дождь с моросью"
+            314 -> "Сильный ливень и морось"
+            321 -> "Дождь из душа"
+            500 -> "Легкий дождь"
+            501 -> "Умеренный дождь"
+            502 -> "Сильный дождь"
+            503 -> "Очень сильный дождь"
+            504 -> "Сильный дождь"
+            511 -> "Ледяной дождь"
+            520 -> "Легкий дождь, дождь"
+            521 -> "Ливень дождь"
+            522 -> "Сильный ливень"
+            531 -> "Неровный дождь"
+            600 -> "Легкий снег"
+            601 -> "Снег"
+            602 -> "Сильный снегопад"
+            611 -> "Мокрый снег"
+            612 -> "Легкий дождь с мокрым снегом"
+            613 -> "Мокрый дождь"
+            615 -> "Небольшой дождь и снег"
+            616 -> "Дождь и снег"
+            620 -> "Легкий ливневый снег"
+            621 -> "Shower snow"
+            622 -> "Сильный снегопад"
+            701 -> "Туман"
+            711 -> "Курить"
+            721 -> "Туман"
+            731 -> "Песчано-пылевые вихри"
+            741 -> "Туман"
+            751 -> "Песок"
+            761 -> "Пыль"
+            762 -> "Вулканический пепел"
+            771 -> "Шквалы"
+            781 -> "Торнадо"
+            800 -> "Чистое небо"
+            801 -> "Мало облаков"
+            802 -> "Рассеянные облака"
+            803 -> "Разорванные облака"
+            804 -> "Пасмурные облака"
+            else -> ""
+        }
+        Log.i("ABOBA", "$weather $result")
+        return result
+    }
+
 
     private fun setEffectRainSnow(icon: String) {
         when (icon.dropLast(1)) {

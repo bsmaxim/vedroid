@@ -105,7 +105,7 @@
                 android:shadowDx="1"
                 android:shadowDy="1"
                 android:shadowRadius="3"
-                android:text="-Km"
+                android:text="-Км"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -119,7 +119,7 @@
                 android:shadowDx="1"
                 android:shadowDy="1"
                 android:shadowRadius="3"
-                android:text="Wind"
+                android:text="Ветер"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
@@ -243,7 +243,7 @@
                 android:shadowDx="1"
                 android:shadowDy="1"
                 android:shadowRadius="3"
-                android:text="Humidity"
+                android:text="Влажность"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="12sp" />

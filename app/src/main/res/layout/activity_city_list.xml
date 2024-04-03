@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Search Your City" />
+        android:text="Найди свой город" />
 
     <EditText
         android:id="@+id/cityEdit"
@@ -23,7 +23,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/edittext_bg"
         android:ems="10"
-        android:hint="type your city"
+        android:hint="введи свой город"
         android:inputType="text"
         android:textColor="@color/black"
         android:padding="8dp"
