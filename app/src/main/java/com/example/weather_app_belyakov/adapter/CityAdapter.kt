@@ -34,7 +34,6 @@ class CityAdapter : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
             intent.putExtra("name", cityName)
             binding.root.context.startActivity(intent)
         }
-
     }
 
     override fun getItemCount() = differ.currentList.size
